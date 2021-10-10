@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:id="@+id/choose_city_bottom_sheet"
+    android:paddingVertical="50dp"
+    >
+
+
+    <EditText
+        android:id="@+id/edt_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="text"
+        android:maxLength="16"
+        android:padding="10dp"
+        android:layout_marginHorizontal="10dp"
+        android:textColorHint="#c7c7c7"
+        android:hint="Enter name" />
+
+    <EditText
+        android:id="@+id/edt_location"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="text"
+        android:maxLength="16"
+        android:padding="10dp"
+        android:layout_marginHorizontal="10dp"
+        android:textColorHint="#c7c7c7"
+        android:hint="Enter location" />
+
+    <Button
+        android:id="@+id/btn_submit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAllCaps="false"
+        android:layout_margin="10dp"
+        android:backgroundTint="@color/design_default_color_primary"
+        android:text="Submit" />
+</LinearLayout>
