@@ -13,9 +13,13 @@ class Users(){
         @SerializedName("location")
         var location: String? = null
 
+        @SerializedName("pk")// primary key
+        var pk: Int? = null
+
         constructor(name: String?, location: String?) {
             this.name = name
             this.location = location
+//            this.pk = pk
         }
     }
 }

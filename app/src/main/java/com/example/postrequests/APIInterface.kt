@@ -1,10 +1,7 @@
 package com.example.postrequests
 
 import retrofit2.Call
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.Headers
-import retrofit2.http.POST
+import retrofit2.http.*
 
 interface APIInterface {
     @Headers("Content-Type: application/json")
@@ -16,4 +13,11 @@ interface APIInterface {
     @POST("/test/")
     fun addUser(@Body userData: Users.User): Call<Users.User>
 
+    @Headers("Content-Type: application/json")
+    @PUT("/test/{id}")
+    fun updateUser(@Path("id") id: Int, @Body userData: Users.User): Call<Users.User>
+
+    @Headers("Content-Type: application/json")
+    @DELETE("/test/{id}")
+    fun deleteUser(@Path("id") id: Int): Call<Void>
 }

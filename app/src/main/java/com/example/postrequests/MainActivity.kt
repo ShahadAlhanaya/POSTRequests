@@ -28,20 +28,19 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        progressBar = findViewById(R.id.progressBar)
-        progressBarTextView = findViewById(R.id.progressBarText)
-        setProgressBar(false)
-
-
-        //initialize recyclerView
-        recyclerView = findViewById(R.id.rv_users)
-        recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.adapter = UsersAdapter(usersList)
-
         floatingActionButton = findViewById(R.id.floatingActionButton)
         floatingActionButton.setOnClickListener {
             showBottomSheetDialog(this)
         }
+
+        progressBar = findViewById(R.id.progressBar)
+        progressBarTextView = findViewById(R.id.progressBarText)
+        setProgressBar(false)
+
+        //initialize recyclerView
+        recyclerView = findViewById(R.id.rv_users)
+        recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.adapter = UsersAdapter(usersList,this)
 
 
         CoroutineScope(IO).launch {
@@ -63,9 +62,11 @@ class MainActivity : AppCompatActivity() {
                         "GET Response:",
                         response.code().toString() + " " + response.message()
                     )
+                    usersList.clear()
                     for (User in response.body()!!) {
                         usersList.add(User)
                     }
+                    usersList.sortBy{ user: Users.User -> user.pk}
                     recyclerView.adapter!!.notifyDataSetChanged()
                 }
 
@@ -81,6 +82,7 @@ class MainActivity : AppCompatActivity() {
     private fun setProgressBar(visibility: Boolean) {
         progressBar.isVisible = visibility
         progressBarTextView.isVisible = visibility
+        floatingActionButton.isClickable = !visibility
     }
 
     private fun showBottomSheetDialog(mainActivity: MainActivity) {
@@ -94,14 +96,14 @@ class MainActivity : AppCompatActivity() {
             val name = nameEditText!!.text.toString()
             val location = locationEditText!!.text.toString()
             if (name.trim().length < 2 || location.trim().length < 2) {
-                Toast.makeText(this, "Please enter a valid information", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Please enter valid information", Toast.LENGTH_SHORT).show()
             } else {
 
                 var newUser = Users.User(name, location)
                 postUser(newUser,onResult = {
                     nameEditText.text.clear()
                     locationEditText.text.clear()
-                    Toast.makeText(applicationContext, "Save Success!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(applicationContext, "User Added!", Toast.LENGTH_SHORT).show()
                     bottomSheetDialog.dismiss()
                     getUsersList()
                 })
@@ -130,6 +132,11 @@ class MainActivity : AppCompatActivity() {
             })
         }
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+        getUsersList()
     }
 }
 
